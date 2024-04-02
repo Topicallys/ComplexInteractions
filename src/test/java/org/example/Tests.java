@@ -48,4 +48,16 @@ public class Tests {
 
         driver.close();
     }
+
+    @Test
+    public void dragNDrop (){
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://the-internet.herokuapp.com/drag_and_drop");
+
+        WebElement source = driver.findElement(By.id("column-a"));
+        WebElement target = driver.findElement(By.id("column-b"));
+
+        Actions builder = new Actions(driver);
+        builder.dragAndDrop(source, target).perform();
+    }
 }
