@@ -11,12 +11,13 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class Tests {
 
     @Test
-    public void doubleClick() throws InterruptedException {
+    public void doubleClick() {
 
         WebDriver driver = new ChromeDriver();
         driver.get("https://klik-test.ru/dabl-klik-test");
@@ -34,7 +35,7 @@ public class Tests {
 
         // Ожидаем сброса результата
         (new WebDriverWait(driver, Duration.ofSeconds(5))).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver el){
+            public Boolean apply(WebDriver d){
                 return driver.findElement(By.id("textarea")).getAttribute("value").isEmpty();
             }
         });
@@ -46,11 +47,11 @@ public class Tests {
         System.out.println("Скорость нажатия двойного клика: " + textarea.getAttribute("value"));
 
 
-        driver.close();
+        driver.quit();
     }
 
     @Test
-    public void dragNDrop (){
+    public void dragNDrop () throws InterruptedException {
         WebDriver driver = new ChromeDriver();
         driver.get("https://the-internet.herokuapp.com/drag_and_drop");
 
@@ -59,5 +60,31 @@ public class Tests {
 
         Actions builder = new Actions(driver);
         builder.dragAndDrop(source, target).perform();
+
+        // Пользователь должен проверить, что первым стоит бокс B, вторым стоит бокс A
+        Thread.sleep(3000);
+        driver.quit();
     }
+
+    @Test
+    public void clickNHold() {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://testkru.com/Interactions/DragAndDrop");
+
+        WebElement box1 = driver.findElement(By.id("box1"));
+        Assert.assertEquals(box1.getText(), "Box 1", "Expected text 'Box 1'");
+
+        Actions builder = new Actions(driver);
+        builder.clickAndHold(box1).perform();
+
+        // Ожидаем изменения текста бокса на 'Holding Box 1' при удержании
+        (new WebDriverWait(driver, Duration.ofSeconds(5))).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d){
+                return  box1.getText().equals("Holding Box 1");
+            }
+        });
+
+        driver.quit();
+    }
+
 }
