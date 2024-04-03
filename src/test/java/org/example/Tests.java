@@ -4,6 +4,7 @@ import java.time.Duration;
 import java.util.Scanner;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -83,6 +84,23 @@ public class Tests {
                 return  box1.getText().equals("Holding Box 1");
             }
         });
+
+        driver.quit();
+    }
+
+    @Test
+    public void contextClick() throws InterruptedException {
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://swisnl.github.io/jQuery-contextMenu/demo.html");
+
+        WebElement menu = driver.findElement(By.className("context-menu-one"));
+
+
+        Actions builder = new Actions(driver);
+        builder.contextClick(menu).sendKeys(Keys.ARROW_DOWN).sendKeys(Keys.ARROW_DOWN).sendKeys(Keys.ENTER).build().perform();
+
+        // Пользователь должен проверить, что воявился alert с текстом "clicked: cut"
+        Thread.sleep(5000);
 
         driver.quit();
     }
