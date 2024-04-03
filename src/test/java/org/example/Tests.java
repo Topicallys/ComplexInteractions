@@ -21,6 +21,7 @@ public class Tests {
     public void doubleClick() {
 
         WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
         driver.get("https://klik-test.ru/dabl-klik-test");
         WebElement clicker = driver.findElement(By.id("clicker"));
 
@@ -54,6 +55,7 @@ public class Tests {
     @Test
     public void dragNDrop () throws InterruptedException {
         WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
         driver.get("https://the-internet.herokuapp.com/drag_and_drop");
 
         WebElement source = driver.findElement(By.id("column-a"));
@@ -70,6 +72,7 @@ public class Tests {
     @Test
     public void clickNHold() {
         WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
         driver.get("https://testkru.com/Interactions/DragAndDrop");
 
         WebElement box1 = driver.findElement(By.id("box1"));
@@ -91,6 +94,7 @@ public class Tests {
     @Test
     public void contextClick() throws InterruptedException {
         WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
         driver.get("https://swisnl.github.io/jQuery-contextMenu/demo.html");
 
         WebElement menu = driver.findElement(By.className("context-menu-one"));
@@ -99,8 +103,25 @@ public class Tests {
         Actions builder = new Actions(driver);
         builder.contextClick(menu).sendKeys(Keys.ARROW_DOWN).sendKeys(Keys.ARROW_DOWN).sendKeys(Keys.ENTER).build().perform();
 
-        // Пользователь должен проверить, что воявился alert с текстом "clicked: cut"
+        // Пользователь должен проверить, что появился alert с текстом "clicked: cut"
         Thread.sleep(5000);
+
+        driver.quit();
+    }
+
+    @Test
+    public void dragNDropWithOffset() throws InterruptedException {
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.get("https://demoqa.com/dragabble");
+
+        WebElement source = driver.findElement(By.id("dragBox"));
+
+        Actions builder = new Actions(driver);
+        builder.dragAndDropBy(source,  400,150).perform();
+
+        // Пользователь должен проверить, что бокс "Drag me" находится внутри контейнера
+        Thread.sleep(3000);
 
         driver.quit();
     }
