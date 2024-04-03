@@ -3,6 +3,8 @@ package org.example;
 import java.time.Duration;
 import java.util.Scanner;
 
+import org.checkerframework.checker.units.qual.A;
+import org.checkerframework.checker.units.qual.C;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -126,4 +128,21 @@ public class Tests {
         driver.quit();
     }
 
+    @Test
+    public void keyDownKeyUp() {
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.get("https://codepen.io/alexcss/pen/LZBNBJ");
+
+        driver.switchTo().frame(0);
+
+        WebElement textarea = (new WebDriverWait(driver, Duration.ofSeconds(5))).until(ExpectedConditions.presenceOfElementLocated(By.id("area")));
+
+        Actions builder = new Actions(driver);
+        builder.keyDown(textarea, Keys.SHIFT).sendKeys("upper").keyUp(Keys.SHIFT).sendKeys("lower").perform();
+
+        Assert.assertEquals(textarea.getAttribute("value"), "UPPERlower", "Expected text 'UPPERlower'");
+
+        driver.quit();
+    }
 }
