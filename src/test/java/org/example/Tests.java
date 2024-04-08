@@ -145,4 +145,31 @@ public class Tests {
 
         driver.quit();
     }
+
+    @Test
+    public void moveToElementAndClick() {
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+        driver.get("http://uitestingplayground.com/mouseover");
+
+        // Ховер на ссылку, чтобы её DOM изменился
+        WebElement link = driver.findElement(By.className("text-primary"));
+
+        Actions builder = new Actions(driver);
+        builder.moveToElement(link).perform();
+
+        // Получаем новый путь до ссылки при ховере
+        WebElement hoverLink = driver.findElement(By.className("text-warning"));
+        // Кликаем на ссылку последовательно два раза
+        hoverLink.click();
+        hoverLink.click();
+
+        // Проверяем, что количество кликов равно двум
+        WebElement count = driver.findElement(By.id("clickCount"));
+        Assert.assertEquals(count.getText(), "2", "Expected count '2'");
+
+        //driver.quit();
+    }
+
 }
