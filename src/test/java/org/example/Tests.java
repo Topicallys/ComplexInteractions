@@ -172,4 +172,37 @@ public class Tests {
         //driver.quit();
     }
 
+    @Test
+    public void moveByOffset() throws InterruptedException {
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+        driver.get("https://www.geeksforgeeks.org/");
+
+        (new WebDriverWait(driver, Duration.ofSeconds(5)))
+                .until(ExpectedConditions.presenceOfElementLocated(By.xpath("//span[contains(text(), 'Tutorials')]")));
+
+        // Открываем меню "Tutorials"
+        WebElement tutorials = driver.findElement(By.xpath("//span[contains(text(), 'Tutorials')]"));
+
+        Actions builder = new Actions(driver);
+        builder.moveToElement(tutorials).perform();
+
+        // Открываем подменю "Java"
+        builder.moveByOffset(0, 100).perform();
+        // Перемещаем курсор мыши на пункты подменю "Java"
+        builder.moveByOffset(400, 0).perform();
+        // Открываем подменю "Java Quiz"
+        builder.moveByOffset(0, 300).perform();
+        // Наводим курсор мыши на пункт "Java Quiz"
+        builder.moveByOffset(300,0).perform();
+        // Кликаем на "Java Quiz", чтобы перейти на страницу квиза
+        builder.click().perform();
+
+        // Проверяем, что title страницы совпадает с ожидаемым
+        Assert.assertEquals(driver.getTitle(), "50 Java Language MCQs with Answers - GeeksforGeeks", "Error");
+
+        driver.quit();
+    }
+
 }
