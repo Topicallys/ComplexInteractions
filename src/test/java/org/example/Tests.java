@@ -205,4 +205,29 @@ public class Tests {
         driver.quit();
     }
 
+    @Test
+    public void clickAndHoldAndRelease() throws InterruptedException {
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+
+        driver.get("https://cpstest.org/mouse-test/");
+
+        WebElement window = driver.findElement(By.id("mainmouse"));
+
+        Actions builder = new Actions(driver);
+        builder.moveToElement(window).perform();
+
+        builder.clickAndHold().perform();
+
+        // Пользователь должен проверить, что нажата левая кнопка мыши
+        Thread.sleep(3000);
+
+        builder.release().perform();
+
+        // Пользователь должен проверить, что левая кнопка мыши отпустилась
+        Thread.sleep(3000);
+
+        driver.quit();
+    }
+
 }
